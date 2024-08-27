@@ -1,0 +1,892 @@
+                                      Basic of SQL----------------------------  << SQL Queries SqlWorkbanc >>  ---------------------------Basic of SQL 
+                                       
+USE College;
+
+
+create table student
+    -> (
+    -> RollNo Int primary key ,
+    -> Name varchar (40),
+    -> Marks Int Not Null ,
+    -> Grade varchar(1),
+    -> city varchar (40) );
+ 
+
+Desc student;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| RollNo | int         | NO   | PRI | NULL    |       |
+| Name   | varchar(40) | YES  |     | NULL    |       |
+| Marks  | int         | NO   |     | NULL    |       |
+| Grade  | varchar(1)  | YES  |     | NULL    |       |
+| city   | varchar(40) | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+
+
+INSERT INTO  student
+    -> (RollNo , Name , Marks , Grade , city )
+    -> values
+    -> (101 ,'Hira',78,'C','Chittagong'),
+    -> (102,'Rawnok',93,'A','Dhaka'),
+    -> (103,'Muntasir',85,'B','Khulna'),
+    -> (104,'Tanjim', 96,'A','Dhaka'),
+    -> (105,'Tawsif',82,'B','Chittagong');
+
+
+SELECT * FROM student;
++--------+----------+-------+-------+------------+
+| RollNo | Name     | Marks | Grade | city       |
++--------+----------+-------+-------+------------+
+|    101 | Hira     |    78 | C     | Chittagong |
+|    102 | Rawnok   |    93 | A     | Dhaka      |
+|    103 | Muntasir |    85 | B     | Khulna     |
+|    104 | Tanjim   |    96 | A     | Dhaka      |
+|    105 | Tawsif   |    82 | B     | Chittagong |                                                                                                                       Use in (Subquery) 
++--------+----------+-------+-------+------------+                                                                                                                                                                                                                                                                                 
+   
+
+                                                                                                                                  
+[[SQL Claus-->>>> 1) Where Claus 2) Group By Claus 3) Order By Claus 4 ) Having Claus 5)Limit Claus ]]
+
+                                                                                                                                                  (Subquery)                                                                                     
+                                                                     ->>>>( Logical Operator [ And , OR , Not , In , Between , Like , All , any ] -->> ANY     
+                                                                     ->>>>( Bitwise Operator [% , | ]                                             -->> ALL
+                                                                     ->>>>( Comparison Operator [ = , != , > , < , >= , <= ]
+[[ where Claus ]]----------------------------------------------------->>>>( Arithmetic Operator [ + , - , * , / , % ]
+
+
+SELECT * FROM student where Marks > 80;
++--------+----------+-------+-------+------------+
+| RollNo | Name     | Marks | Grade | city       |
++--------+----------+-------+-------+------------+
+|    102 | Rawnok   |    93 | A     | Dhaka      |
+|    103 | Muntasir |    85 | B     | Khulna     |
+|    104 | Tanjim   |    96 | A     | Dhaka      |
+|    105 | Tawsif   |    82 | B     | Chittagong |
++--------+----------+-------+-------+------------+
+
+
+SELECT * FROM student where city ='Chittagong';
++--------+--------+-------+-------+------------+
+| RollNo | Name   | Marks | Grade | city       |
++--------+--------+-------+-------+------------+
+|    101 | Hira   |    78 | C     | Chittagong |
+|    105 | Tawsif |    82 | B     | Chittagong |
++--------+--------+-------+-------+------------+
+
+-->> AND Operator
+SELECT * FROM student where Marks >80 AND city ='Chittagong';
++--------+--------+-------+-------+------------+
+| RollNo | Name   | Marks | Grade | city       |
++--------+--------+-------+-------+------------+
+|    105 | Tawsif |    82 | B     | Chittagong |
++--------+--------+-------+-------+------------+
+
+-->> OR Operator
+SELECT * FROM where Marks >90 OR city ="Khulna";
++--------+----------+-------+-------+--------+
+| RollNo | Name     | Marks | Grade | city   |
++--------+----------+-------+-------+--------+
+|    102 | Rawnok   |    93 | A     | Dhaka  |
+|    103 | Muntasir |    85 | B     | Khulna |
+|    104 | Tanjim   |    96 | A     | Dhaka  |
++--------+----------+-------+-------+--------+
+
+-->>Between operator
+SELECT * FROM student where Marks BETWEEN 80 AND 90 ;
++--------+----------+-------+-------+------------+
+| RollNo | Name     | Marks | Grade | city       |
++--------+----------+-------+-------+------------+
+|    103 | Muntasir |    85 | B     | Khulna     |
+|    105 | Tawsif   |    82 | B     | Chittagong |
++--------+----------+-------+-------+------------+
+
+-->>In Operator 
+SELECT * FROM student where city in ('Dhaka', 'Chittagong');
++--------+--------+-------+-------+------------+
+| RollNo | Name   | Marks | Grade | city       |
++--------+--------+-------+-------+------------+
+|    101 | Hira   |    78 | C     | Chittagong |
+|    102 | Rawnok |    93 | A     | Dhaka      |
+|    104 | Tanjim |    96 | A     | Dhaka      |
+|    105 | Tawsif |    82 | B     | Chittagong |
++--------+--------+-------+-------+------------+
+
+-->Not In Operator
+SELECT * FROM student where city NOT IN ('Khulna' , 'Dhaka');
++--------+--------+-------+-------+------------+
+| RollNo | Name   | Marks | Grade | city       |
++--------+--------+-------+-------+------------+
+|    101 | Hira   |    78 | C     | Chittagong |
+|    105 | Tawsif |    82 | B     | Chittagong |
++--------+--------+-------+-------+------------+
+
+-->Like
+SELECT * FROM student where Name Like 'Ta%';
++--------+--------+-------+-------+------------+
+| RollNo | Name   | Marks | Grade | city       |
++--------+--------+-------+-------+------------+
+|    104 | Tanjim |    96 | A     | Dhaka      |
+|    105 | Tawsif |    82 | B     | Chittagong |
++--------+--------+-------+-------+------------+
+
+-->>Like
+SELECT * FROM student where city Like ('%a');
++--------+----------+-------+-------+--------+
+| RollNo | Name     | Marks | Grade | city   |
++--------+----------+-------+-------+--------+
+|    102 | Rawnok   |    93 | A     | Dhaka  |
+|    103 | Muntasir |    85 | B     | Khulna |
+|    104 | Tanjim   |    96 | A     | Dhaka  |
++--------+----------+-------+-------+--------+
+
+
+-->Like
+SELECT * FROM student where city like '_%g';
++--------+--------+-------+-------+------------+
+| RollNo | Name   | Marks | Grade | city       |
++--------+--------+-------+-------+------------+
+|    101 | Hira   |    78 | C     | Chittagong |
+|    105 | Tawsif |    82 | B     | Chittagong |
++--------+--------+-------+-------+------------+
+
+-->>Not Like
+SELECT * FROM student where city NOT LIKE 'C%';
++--------+----------+-------+-------+--------+
+| RollNo | Name     | Marks | Grade | city   |
++--------+----------+-------+-------+--------+
+|    102 | Rawnok   |    93 | A     | Dhaka  |
+|    103 | Muntasir |    85 | B     | Khulna |
+|    104 | Tanjim   |    96 | A     | Dhaka  |
++--------+----------+-------+-------+--------+
+                                                        --> Sum()
+                                                        --> Avg()
+                                                        --> Max()
+                                                        --> Min()
+----->>>>[ Aggregate Function ]---------------------------> Count()
+
+-->> [Aggregate Function] <<--
+
+[[max() ]]
+
+select max(marks) from student ;
++------------+
+| max(marks) |
++------------+
+|         96 |
++------------+
+
+[[Avg() ]]
+
+SELECT avg(Marks) from student ;
++------------+
+| avg(Marks) |
++------------+
+|    86.8000 |
++------------+
+
+[[Sum() ]]
+
+SELECT sum(Marks) from student ;
++------------+
+| sum(Marks) |
++------------+
+|        434 |
++------------+
+
+
+ -------->>[[ Group by Claus ]] <<---------
+
+
+SELECT city FROM student GROUP BY city ;
++------------+
+| city       |
++------------+
+| Chittagong |
+| Dhaka      |
+| Khulna     |
++------------+ 
+ 
+SELECT city , count(Name) FROM student GROUP BY city;
++------------+-------------+
+| city       | count(Name) |
++------------+-------------+
+| Chittagong |           2 |
+| Dhaka      |           2 |
+| Khulna     |           1 |
++------------+-------------+
+
+SELECT Name , sum(Marks) FROM student GROUP BY Name ;
++----------+------------+
+| Name     | sum(Marks) |
++----------+------------+
+| Hira     |         78 |
+| Rawnok   |         93 |
+| Muntasir |         85 |
+| Tanjim   |         96 |
+| Tawsif   |         82 |
++----------+------------+
+
+
+SELECT city , avg(Marks) FROM student GROUP BY city ;
++------------+------------+
+| city       | avg(Marks) |
++------------+------------+
+| Chittagong |    80.0000 |
+| Dhaka      |    94.5000 |
+| Khulna     |    85.0000 |
++------------+------------+
+
+
+---------------->> [When More than 2 selects in( Group by Claus ) <<--------------------
+
+SELECT RollNo , Name , sum(Marks) FROM student GROUP BY RollNo , name ;
++--------+----------+------------+
+| RollNo | Name     | sum(Marks) |
++--------+----------+------------+
+|    101 | Hira     |         78 |
+|    102 | Rawnok   |         93 |
+|    103 | Muntasir |         85 |
+|    104 | Tanjim   |         96 |
+|    105 | Tawsif   |         82 |
++--------+----------+------------+
+
+SELECT Name , city , RollNo, avg(Marks) AS avg_Marks FROM student GROUP BY city , Name , ROllNo;
++----------+------------+--------+-----------+
+| Name     | city       | RollNo | avg_Marks |
++----------+------------+--------+-----------+
+| Hira     | Chittagong |    101 |   78.0000 |
+| Rawnok   | Dhaka      |    102 |   93.0000 |
+| Muntasir | Khulna     |    103 |   85.0000 |
+| Tanjim   | Dhaka      |    104 |   96.0000 |
+| Tawsif   | Chittagong |    105 |   82.0000 |
++----------+------------+--------+-----------+
+
+
+SELECT Name , city , RollNo, Round(avg(Marks),2) AS avg_Marks FROM student GROUP BY city , Name , ROllNo;
++----------+------------+--------+-----------+
+| Name     | city       | RollNo | avg_Marks |
++----------+------------+--------+-----------+
+| Hira     | Chittagong |    101 |     78.00 |
+| Rawnok   | Dhaka      |    102 |     93.00 |
+| Muntasir | Khulna     |    103 |     85.00 |
+| Tanjim   | Dhaka      |    104 |     96.00 |
+| Tawsif   | Chittagong |    105 |     82.00 |
++----------+------------+--------+-----------+
+
+
+------------->>> [[ Having Claus ]] <<<--------------
+
+SELECT city , count(Name) FROM student GROUP BY city having max(Marks)>90;
++-------+-------------+
+| city  | count(Name) |
++-------+-------------+
+| Dhaka |           2 |
++-------+-------------+
+
+
+SELECT city ,count(Name) AS Student_count from student GROUP BY city having max(Marks)>90;
++-------+---------------+
+| city  | Student_count |
++-------+---------------+
+| Dhaka |             2 |
++-------+---------------+
+
+
+------------->>>>>> Order By Claus <<<<<<--------------
+
+SELECT * FROM student ORDER BY Marks ASC;
++--------+----------+-------+-------+------------+
+| RollNo | Name     | Marks | Grade | city       |
++--------+----------+-------+-------+------------+
+|    101 | Hira     |    78 | C     | Chittagong |
+|    105 | Tawsif   |    82 | B     | Chittagong |
+|    103 | Muntasir |    85 | B     | Khulna     |
+|    102 | Rawnok   |    93 | A     | Dhaka      |
+|    104 | Tanjim   |    96 | A     | Dhaka      |
++--------+----------+-------+-------+------------+
+
+
+------------->>>>>> Limit  Claus <<<<<<--------------
+
+SELECT * FROM student ORDER BY Marks ASC LIMIT 3;
++--------+----------+-------+-------+------------+
+| RollNo | Name     | Marks | Grade | city       |
++--------+----------+-------+-------+------------+
+|    101 | Hira     |    78 | C     | Chittagong |
+|    105 | Tawsif   |    82 | B     | Chittagong |
+|    103 | Muntasir |    85 | B     | Khulna     |
++--------+----------+-------+-------+------------+
+
+
+SELECT Name , city , RollNo, Round(avg(Marks),2) AS avg_Marks FROM student GROUP BY city , Name , ROllNo ORDER BY avg_Marks ASC limit 3;
++----------+------------+--------+-----------+
+| Name     | city       | RollNo | avg_Marks |
++----------+------------+--------+-----------+
+| Hira     | Chittagong |    101 |     78.00 |
+| Tawsif   | Chittagong |    105 |     82.00 |
+| Muntasir | Khulna     |    103 |     85.00 |
++----------+------------+--------+-----------+
+
+
+SELECT Name , city , RollNo , Count(Marks) AS Count_marks FROM student GROUP BY city , Name , RollNo ORDER BY Count_Marks ASC limit 5;
++----------+------------+--------+-------------+
+| Name     | city       | RollNo | Count_marks |
++----------+------------+--------+-------------+
+| Hira     | Chittagong |    101 |           1 |
+| Rawnok   | Dhaka      |    102 |           1 |
+| Muntasir | Khulna     |    103 |           1 |
+| Tanjim   | Dhaka      |    104 |           1 |
+| Tawsif   | Chittagong |    105 |           1 |
++----------+------------+--------+-------------+
+
+--------->>>(Group BY , Having , Order By , Limit Claus <<<<---------------
+
+SELECT Name , city , RollNo , Count(Marks) AS Count_marks FROM student group by city , Name , RollNo HAVING max(Marks)>90 Order By Count_Marks ASC limit 5;
++--------+-------+--------+-------------+
+| Name   | city  | RollNo | Count_marks |
++--------+-------+--------+-------------+
+| Rawnok | Dhaka |    102 |           1 |
+| Tanjim | Dhaka |    104 |           1 |
++--------+-------+--------+-------------+
+
+-------------[[ Update & Delete]]--------------- 
+
+
+-->> Update 
+
+UPDATE student set Grade ='K' where grade ='A';
+
+SELECT * FROM student ;
++--------+----------+-------+-------+------------+
+| RollNo | Name     | Marks | Grade | city       |
++--------+----------+-------+-------+------------+
+|    101 | Hira     |    78 | C     | Chittagong |
+|    102 | Rawnok   |    93 | K     | Dhaka      |
+|    103 | Muntasir |    85 | B     | Khulna     |
+|    104 | Tanjim   |    96 | K     | Dhaka      |
+|    105 | Tawsif   |    82 | B     | Chittagong |
++--------+----------+-------+-------+------------+
+
+-->> Delete 
+
+DELETE from student where Marks <80;
+
+
+SELECT * FROM student;
++--------+----------+-------+-------+------------+
+| RollNo | Name     | Marks | Grade | city       |
++--------+----------+-------+-------+------------+
+|    102 | Rawnok   |    93 | K     | Dhaka      |
+|    103 | Muntasir |    85 | B     | Khulna     |
+|    104 | Tanjim   |    96 | K     | Dhaka      |
+|    105 | Tawsif   |    82 | B     | Chittagong |
++--------+----------+-------+-------+------------+
+                                                                 -->>>ADD Column 
+                                                                 -->>>Change Column
+                                                                 -->>>Modify
+[[ ALter --->> we use alter to change the Schema ]]---------------->>>Drop
+
+ALTER table student add column Country varchar (40) not null default 'Bangladesh';
+
+SELECT * FROM student ;
++--------+----------+-------+-------+------------+------------+
+| RollNo | Name     | Marks | Grade | city       | Country    |
++--------+----------+-------+-------+------------+------------+
+|    102 | Rawnok   |    93 | K     | Dhaka      | Bangladesh |
+|    103 | Muntasir |    85 | B     | Khulna     | Bangladesh |
+|    104 | Tanjim   |    96 | K     | Dhaka      | Bangladesh |
+|    105 | Tawsif   |    82 | B     | Chittagong | Bangladesh |
++--------+----------+-------+-------+------------+------------+
+
+
+ALTER table student change Country Country_Name varchar(40);
+
+SELECT * FROM student;
++--------+----------+-------+-------+------------+--------------+
+| RollNo | Name     | Marks | Grade | city       | Country_Name |
++--------+----------+-------+-------+------------+--------------+
+|    102 | Rawnok   |    93 | K     | Dhaka      | Bangladesh   |
+|    103 | Muntasir |    85 | B     | Khulna     | Bangladesh   |
+|    104 | Tanjim   |    96 | K     | Dhaka      | Bangladesh   |
+|    105 | Tawsif   |    82 | B     | Chittagong | Bangladesh   |
++--------+----------+-------+-------+------------+--------------+
+
+
+ALTER table student MODIFY Country_Name Char(60);
+
+SELECT * FROM student ;
++--------+----------+-------+-------+------------+--------------+
+| RollNo | Name     | Marks | Grade | city       | Country_Name |
++--------+----------+-------+-------+------------+--------------+
+|    102 | Rawnok   |    93 | K     | Dhaka      | Bangladesh   |
+|    103 | Muntasir |    85 | B     | Khulna     | Bangladesh   |
+|    104 | Tanjim   |    96 | K     | Dhaka      | Bangladesh   |
+|    105 | Tawsif   |    82 | B     | Chittagong | Bangladesh   |
++--------+----------+-------+-------+------------+--------------+
+
+------->>>>[Drop]<<<------[[ we use drop to delete one specific Column  ]] 
+
+ALTER table student DROP column Country_Name;
+
+SELECT * FROM student ;
++--------+----------+-------+-------+------------+
+| RollNo | Name     | Marks | Grade | city       |
++--------+----------+-------+-------+------------+
+|    102 | Rawnok   |    93 | K     | Dhaka      |
+|    103 | Muntasir |    85 | B     | Khulna     |
+|    104 | Tanjim   |    96 | K     | Dhaka      |
+|    105 | Tawsif   |    82 | B     | Chittagong |
++--------+----------+-------+-------+------------+
+
+-->>[Rename ]] --> [[ we use rename to change the table name ]] 
+
+alter table student Rename to Student_Result;
+
+SELECT * FROM Student_Result;
++--------+----------+-------+-------+------------+
+| RollNo | Name     | Marks | Grade | city       |
++--------+----------+-------+-------+------------+
+|    102 | Rawnok   |    93 | K     | Dhaka      |
+|    103 | Muntasir |    85 | B     | Khulna     |
+|    104 | Tanjim   |    96 | K     | Dhaka      |
+|    105 | Tawsif   |    82 | B     | Chittagong |
++--------+----------+-------+-------+------------+
+
+
+[[Truncate ]]---->>>> we use truncate to Delete (the whole Table attribute ) 
+
+Truncate Table Student_Result;
+
+SELECT * FROM student_result;
+
+Empty set (0.00 sec)
+
+DESC student_result;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| RollNo | int         | NO   | PRI | NULL    |       |
+| Name   | varchar(40) | YES  |     | NULL    |       |
+| Marks  | int         | NO   |     | NULL    |       |
+| Grade  | varchar(1)  | YES  |     | NULL    |       |
+| city   | varchar(40) | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+
+--------->>>>>>>[[Drop ]]<<<-------- (we use Drop to delete the whole table Shema )
+
+Drop table student_result;
+
+
+SHOW tables;
+Empty set (0.00 sec)
+
+SHOW databases;
++---------------------------+
+| Database                  |
++---------------------------+
+| college                   |
+| information_schema        |
+| music_databases           |
+| mysql                     |
+| performance_schema        |
+| student-management-system |
+| window_funciton           |
++---------------------------+
+
+
+use college;
+
+show tables;
+Empty set (0.00 sec)
+
+drop database college;
+
+show databases;
++---------------------------+
+| Database                  |
++---------------------------+
+| information_schema        |
+| music_databases           |
+| mysql                     |
+| performance_schema        |
+| student-management-system |
+| window_funciton           |
++---------------------------+
+
+
+                                                  ------------------------>>>>>     The end of Basic SQL     <<<<<----------------------------
+
+
+
+
+
+                 --------------->>>>>>[ Inner Join , Left Join , Right Join , Full Join , Self Join ]<<<<<<------------------------- 
+
+create database college;
+
+use college;
+
+------>>>[[ 1st Table Name is student ]]<<<--------
+create table student (
+    -> stud_id int primary key ,
+    -> name varchar (40) );
+
+
+insert into student
+    -> (stud_id ,name )
+    -> values
+    -> (101 , 'admin'),
+    -> (102 , 'bob'),
+    -> (103 , 'Casey');
+
+
+select * from student ;
++---------+-------+
+| stud_id | name  |
++---------+-------+
+|     101 | admin |
+|     102 | bob   |
+|     103 | Casey |
++---------+-------+
+
+------->>[[ 2nd Table name is Course ]] <<<---------
+create table course (
+    -> stud_id int primary key ,
+    -> subject varchar (40) );
+
+
+insert into course
+    -> (stud_id , subject )
+    ->  values
+    ->  (102 , 'English'),
+    -> (105 , 'Math'),
+    -> (103 , 'Science'),
+    -> (107 ,'CSE');
+
+
+select * from course;
++---------+---------+
+| stud_id | subject |
++---------+---------+
+|     102 | English |
+|     103 | Science |
+|     105 | Math    |
+|     107 | CSE     |
++---------+---------+
+
+------->>> [ Inner Join ] <<<---------
+
+SELECT * FROM student INNER JOIN course ON student.stud_id = course.stud_id;
++---------+-------+---------+---------+
+| stud_id | name  | stud_id | subject |
++---------+-------+---------+---------+
+|     102 | bob   |     102 | English |
+|     103 | Casey |     103 | Science |
++---------+-------+---------+---------+
+
+------->>> [ Left Join ] <<<---------
+
+
+select * from student AS s LEFT JOIN course AS c ON s.stud_id = c.stud_id;
++---------+-------+---------+---------+
+| stud_id | name  | stud_id | subject |
++---------+-------+---------+---------+
+|     101 | admin |    NULL | NULL    |
+|     102 | bob   |     102 | English |
+|     103 | Casey |     103 | Science |
++---------+-------+---------+---------+
+
+
+------->>> [ Right Join ] <<<---------
+
+
+select * from student AS s RIGHT JOIN course AS c ON s.stud_id = c.stud_id;
++---------+-------+---------+---------+
+| stud_id | name  | stud_id | subject |
++---------+-------+---------+---------+
+|     102 | bob   |     102 | English |
+|     103 | Casey |     103 | Science |
+|    NULL | NULL  |     105 | Math    |
+|    NULL | NULL  |     107 | CSE     |
++---------+-------+---------+---------+
+
+
+------->>> [ full Join ] <<<---------[[ Union ]]
+
+
+SELECT * FROM student AS s LEFT JOIN course AS c On s.stud_id = c.stud_id
+    -> UNION
+    -> SELECT * FROM student AS s RIGHT JOIN course AS c ON s.stud_id = c.stud_id;
++---------+-------+---------+---------+
+| stud_id | name  | stud_id | subject |
++---------+-------+---------+---------+
+|     101 | admin |    NULL | NULL    |
+|     102 | bob   |     102 | English |
+|     103 | Casey |     103 | Science |
+|    NULL | NULL  |     105 | Math    |
+|    NULL | NULL  |     107 | CSE     |
++---------+-------+---------+---------+
+
+
+
+------->>> [ Self Join ] <<<---------
+
+
+ --->>[ Table name is Employees ]<<---
+
+CREATE TABLE Employees (
+    EmployeeID INT PRIMARY KEY,
+    Name VARCHAR(50),
+    ManagerID INT
+);
+
+
+INSERT INTO Employees (EmployeeID, Name, ManagerID) VALUES
+    -> (1, 'Hira', NULL),
+    -> (2, 'Rownok', 1),
+    ->  (3, 'Tawsif', 1),
+    -> (5, 'Topu', 2);
+
+select * from Employees;
++------------+--------+-----------+
+| EmployeeID | Name   | ManagerID |
++------------+--------+-----------+
+|          1 | Hira   |      NULL |
+|          2 | Rownok |         1 |
+|          3 | Tawsif |         1 |
+|          5 | Topu   |         2 |
++------------+--------+-----------+
+
+
+SELECT * from Employees AS T1 JOIN Employees AS T2 ON T2.EmployeeID = T1.ManagerID;
++------------+--------+-----------+------------+--------+-----------+
+| EmployeeID | Name   | ManagerID | EmployeeID | Name   | ManagerID |
++------------+--------+-----------+------------+--------+-----------+
+|          2 | Rownok |         1 |          1 | Hira   |      NULL |
+|          3 | Tawsif |         1 |          1 | Hira   |      NULL |
+|          5 | Topu   |         2 |          2 | Rownok |         1 |
++------------+--------+-----------+------------+--------+-----------+
+
+
+SELECT T1.Name AS Employee_name, T2.Name AS Manager_name from Employees AS T1 JOIN Employees AS T2 ON T2.EmployeeID = T1.ManagerID;
++---------------+--------------+
+| Employee_name | Manager_name |
++---------------+--------------+
+| Rownok        | Hira         |
+| Tawsif        | Hira         |
+| Topu          | Rownok       |
++---------------+--------------+
+
+
+--------------------------->>>>>> [ Sub Query ]] example with (where ) <<<<<<<<<------------- 
+
+
+
+ create table result (
+    -> rollno int primary key ,
+    -> name varchar (40),
+    -> marks int (4) );
+
+
+
+ insert into result (rollno , name , marks ) values
+    -> (101 , 'Anil', 78),
+    -> (102 , 'Bhumika',93),
+    -> (103 , 'Hira', 85),
+    -> (104 , 'Jira', 96);
+
+select * from result ;
++--------+---------+-------+
+| rollno | name    | marks |
++--------+---------+-------+
+|    101 | Anil    |    78 |
+|    102 | Bhumika |    93 |
+|    103 | Hira    |    85 |
+|    104 | Jira    |    96 |
++--------+---------+-------+
+
+Qstn 1=> Find the name of all students who scored more than Class average 
+
+way to solve =>
+==============
+Step 1 => Find the avg Class marks 
+Step 2=> Find the names of students with marks > avg 
+
+Query=>
+
+=>>Normal solution (Not smart Solution )<== 
+
+select avg(marks) from result ;
++------------+
+| avg(marks) |
++------------+
+|    88.0000 |
++------------+
+
+select name from result where marks > 88;
++---------+
+| name    |
++---------+
+| Bhumika |
+| Jira    |
++---------+
+
+
+=>>Dynamic solution (Smart Solution )<== [[This is Called Sub-Query ]]
+
+
+SELECT name , marks from result where marks > (select avg(marks) from result );
++---------+-------+
+| name    | marks |
++---------+-------+
+| Bhumika |    93 |
+| Jira    |    96 |
++---------+-------+
+
+
+
+
+Qstn 2=> Find the name of all student with even rollNo 
+
+way to solve=>
+==============
+step 1 => find the even rollNo 
+step 3 => Find the name of students with even rollNo 
+
+
+=>>Normal solution (Not smart Solution )<== 
+
+
+select rollno from result where rollno %2 =0 ;
++--------+
+| rollno |
++--------+
+|    102 |
+|    104 |
++--------+
+
+select name , rollno from result where rollno in (102, 104);
++---------+--------+
+| name    | rollno |
++---------+--------+
+| Bhumika |    102 |
+| Jira    |    104 |
++---------+--------+
+
+
+=>>Dynamic solution (Smart Solution )<== [[This is Called Sub-Query ]]
+
+
+select name ,rollno from result where rollno in (select rollno from result where rollno % 2 =0);
++---------+--------+
+| name    | rollno |
++---------+--------+
+| Bhumika |    102 |
+| Jira    |    104 |
++---------+--------+
+
+
+
+
+
+--------------------------->>>>>> [ Sub Query ]] example with (From)-->>[AS temp ] must use korte hobe <<<=========
+
+
+
+Qstn 3)=> Find the max marks from student of Chittagong
+
+Way to solve =>
+================
+
+step 1=> Find the student of Chittagong
+
+step 2=> Find their Max marks using the Sublist in step 1 
+
+query =>
+========
+
+((( first i have to add a Column name City , where i don't want to keep the Default value ))
+
+
+ALTER table result add column city varchar (40) ;
+
+
+UPDATE result SET city = CASE
+    -> when rollno = 101 THEN 'Dhaka'
+    ->  when rollno = 102 THEN 'Dhaka'
+    ->  when rollno = 103 THEN 'Chittagong'
+    ->  when rollno = 104 THEN 'Chittagong'
+    -> else 'unknown'
+    -> end;
+
+
+select * from result ;
++--------+---------+-------+------------+
+| rollno | name    | marks | city       |
++--------+---------+-------+------------+
+|    101 | Anil    |    78 | Dhaka      |
+|    102 | Bhumika |    93 | Dhaka      |
+|    103 | Hira    |    85 | Chittagong |
+|    104 | Jira    |    96 | Chittagong |
++--------+---------+-------+------------+
+
+
+select max(marks) from (select * from result where city ='Chittagong') AS temp ;
++------------+
+| max(marks) |
++------------+
+|         96 |
++------------+
+
+
+
+                   ----------------------->>>>>> [[ My SQL Views ]]] <<<<<<<<----------------------------
+
+
+                         view is a virtual table based on the result-set of an SQL statement  
+
+
+[[[ s is not real Table , Oy a virtual table ]]]]
+
+
+
+create view view1 AS select rollno , name , marks from result ;
+
+select * from view1;
++--------+---------+-------+
+| rollno | name    | marks |
++--------+---------+-------+
+|    101 | Anil    |    78 |
+|    102 | Bhumika |    93 |
+|    103 | Hira    |    85 |
+|    104 | Jira    |    96 |
++--------+---------+-------+
+
+[[ IF i want i can run multiple queries on this virtual table ]]]
+
+
+select * from view1  where marks >90;
++--------+---------+-------+
+| rollno | name    | marks |
++--------+---------+-------+
+|    102 | Bhumika |    93 |
+|    104 | Jira    |    96 |
++--------+---------+-------+
+
+drop view view1;
+
+select * from view1;
+
+ERROR [[ CZZZ don't exist anymore i dropped the virtual table ]]
+
+
+=======================================================================================[[[The ENd ]]]===========================================================================
+
+
+
+
+
+
+
